@@ -6,9 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Melusine Scanner.unity
-    guid: 5ec05b5e94cb50b42b929501e60916c9
-  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
@@ -17,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MelusineisAway.unity
     guid: 12538ecddb2cd15419e745d7018c9a28
+  - enabled: 1
+    path: Assets/Scenes/Melusine Scanner.unity
+    guid: 5ec05b5e94cb50b42b929501e60916c9
   m_configObjects: {}
