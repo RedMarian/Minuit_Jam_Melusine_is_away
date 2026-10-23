@@ -459,12 +459,16 @@ MonoBehaviour:
   onImageFound:
     m_PersistentCalls:
       m_Calls: []
+    m_CallsDirty: 1
   onScanCancelled:
     m_PersistentCalls:
       m_Calls: []
+    m_CallsDirty: 1
   onScanError:
     m_PersistentCalls:
       m_Calls: []
+    m_CallsDirty: 1
+  <IsScanning>k__BackingField: 0
 --- !u!4 &765946318
 Transform:
   m_ObjectHideFlags: 0
@@ -494,6 +498,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scannerCanvas: {fileID: 45201783}
   foundCanvas: {fileID: 1107926921}
+  scanner: {fileID: 0}
 --- !u!1 &1107926921
 GameObject:
   m_ObjectHideFlags: 0
