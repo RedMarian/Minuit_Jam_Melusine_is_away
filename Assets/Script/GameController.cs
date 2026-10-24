@@ -39,7 +39,11 @@ public class GameController : MonoBehaviour
 
         if (Cleanliness >= 100)
         {
-            
+            Victory();
+        }
+        else
+        {
+            CleanlinessIncrese();
         }
         
         CameraTransform.position = new Vector3(camPosX, CameraTransform.position.y, CameraTransform.position.z);
