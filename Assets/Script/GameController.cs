@@ -16,6 +16,7 @@ public class GameController : MonoBehaviour
     public float camPosX;
     public float lerpValue;
     public float maxCamPosX;
+    public float maxCamTarget = 1.5f;
 
     public HubbyVariables Hubby1CanSee;
     public HubbyVariables Hubby2CanSee;
@@ -73,27 +74,22 @@ public class GameController : MonoBehaviour
         //Debug.Log("I'm live");
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            MaxCamPosXDef(-1f);
             PressingLeft(true);
             //Debug.Log("PressingLeft");
         }
         else if (Input.GetKeyUp(KeyCode.LeftArrow))
         {
             PressingLeft(false);
-            MaxCamPosXDef(0f);
-
         }
 
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            MaxCamPosXDef(1f);
             PressingRight(true);
             //Debug.Log("PressingRight");
             
         } else if (Input.GetKeyUp(KeyCode.RightArrow))
         {
             PressingRight(false);
-            MaxCamPosXDef(0f);
         }
 
         if (Input.GetKeyDown(KeyCode.DownArrow))
@@ -107,12 +103,16 @@ public class GameController : MonoBehaviour
     public void PressingLeft(bool state)
     {
         MelusineAnimator.SetBool("LeftIsDown", state);
+        var target = state ? -maxCamTarget : 0f;
+        MaxCamPosXDef(target);
         //CamLag(-1f, state);
         //Debug.Log("Melusine turns left"+state);
     }
     public void PressingRight(bool state)
     {
         MelusineAnimator.SetBool("RightIsDown", state);
+        var target = state ? maxCamTarget : 0f;
+        MaxCamPosXDef(target);
         //(1f, state);
         //Debug.Log("Melusine turns right"+state);
     }
@@ -122,7 +122,7 @@ public class GameController : MonoBehaviour
         MelusineAnimator.SetTrigger("Hide");
     }
     
-    public void MaxCamPosXDef(float target)
+    private void MaxCamPosXDef(float target)
     {
         maxCamPosX =target;
     }
