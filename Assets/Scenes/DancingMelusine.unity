@@ -439,9 +439,10 @@ MonoBehaviour:
   Hubby1CanSee: {fileID: 426598066}
   Hubby2CanSee: {fileID: 101551819}
   MelusineVariables: {fileID: 1662586223}
+  progress: {fileID: 471027222}
   Cleanliness: 0
   CleanTime: 15
-  Progress: {fileID: 471027222}
+  initialDelay: 1
   hubbyFireDelay: 1.6
   hubbyRightChance: 0.35
   hubbyLeftChance: 0.65

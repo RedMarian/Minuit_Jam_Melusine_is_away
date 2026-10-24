@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class GameController : MonoBehaviour
@@ -20,10 +21,12 @@ public class GameController : MonoBehaviour
     public HubbyVariables Hubby2CanSee;
 
     public MelusionVariables MelusineVariables;
-    
+
+    public Slider progress;
     public float Cleanliness = 0f;
     public float CleanTime = 60f;
 
+    public float initialDelay = 1f;
     public float hubbyFireDelay = 2f;
     public float hubbyRightChance = 0.4f;
     public float hubbyLeftChance = 0.5f;
@@ -38,7 +41,7 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((MelusineVariables.MelusinePosition == 1 && Hubby1CanSee) || (MelusineVariables.MelusinePosition ==2 && Hubby2CanSee))
+        if ((MelusineVariables.MelusinePosition == 1 && Hubby1CanSee.HubbyCanSee) || (MelusineVariables.MelusinePosition ==2 && Hubby2CanSee.HubbyCanSee))
         {
             GameOver();
         }
@@ -50,6 +53,7 @@ public class GameController : MonoBehaviour
         else
         {
             Cleanliness += Time.deltaTime;
+            progress.value = Cleanliness;
         }
         
         CameraTransform.position = new Vector3(camPosX, CameraTransform.position.y, CameraTransform.position.z);
@@ -127,6 +131,7 @@ public class GameController : MonoBehaviour
     
     IEnumerator Dance()
     {
+        yield return new WaitForSeconds(initialDelay);
         while (true)
         {
             float rand = Random.Range(0f, 1f);
