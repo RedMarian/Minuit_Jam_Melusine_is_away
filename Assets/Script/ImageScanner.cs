@@ -3,10 +3,11 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 /// <summary>
 /// Scans for one physical image with MindAR (WebGL only) and raises onImageFound when the camera sees it.
-/// The image is drawn at random from a pool of targetFiles each time a scan starts. Drawn images are
+/// The image is drawn at random from a pool of targetFiles when the scene loads. Drawn images are
 /// removed from the pool and remembered in PlayerPrefs (browser storage on WebGL); once every image
 /// has been drawn, the pool refills.
 /// Requires the "MindAR" WebGL template and the compiled .mind files in Assets/StreamingAssets.
@@ -18,14 +19,18 @@ public class ImageScanner : MonoBehaviour
 
     [Tooltip("Compiled MindAR target files, relative to Assets/StreamingAssets. Drawn at random without repeats.")]
     [SerializeField] string[] targetFiles = { "melusine1.mind", "melusine2.mind" };
-
+    [SerializeField] Sprite[] targetSprites;
     public UnityEvent onImageFound;
     public UnityEvent onScanCancelled;
     public UnityEvent<string> onScanError;
 
+    public GameObject scannerObject;
+    public GameObject imageFoundObject;
+    public Image scannerImage;
+
     public bool IsScanning { get; private set; }
 
-    /// <summary>The randomly chosen image, 1-based (1 = first entry in targetFiles). 0 until the first scan.</summary>
+    /// <summary>The randomly chosen image, 1-based (1 = first entry in targetFiles).</summary>
     public int ChosenNumber { get; private set; }
 
     string ChosenFile => targetFiles[ChosenNumber - 1];
@@ -38,7 +43,9 @@ public class ImageScanner : MonoBehaviour
     static void MindAR_StopScan() => Debug.Log("[Scanner] StopScan (editor stub)");
 #endif
 
-    // Called by BeginScan: every scan draws a new image from the pool.
+    // Drawn once when the scene loads so scannerImage can show it before the player scans.
+    void Awake() => DrawFromPool();
+
     public void DrawFromPool()
     {
         var used = LoadUsed();
@@ -55,6 +62,7 @@ public class ImageScanner : MonoBehaviour
 
         used.Add(file);
         SaveUsed(used);
+        scannerImage.sprite = targetSprites[ChosenNumber - 1];
         Debug.Log($"[Scanner] Chosen image {ChosenNumber} ({file}), {remaining.Count - 1} left in pool");
     }
 
@@ -83,7 +91,6 @@ public class ImageScanner : MonoBehaviour
     {
         if (IsScanning) return;
         IsScanning = true;
-        DrawFromPool();
         MindAR_StartScan(gameObject.name, Application.streamingAssetsPath + "/" + ChosenFile);
     }
 
@@ -101,6 +108,8 @@ public class ImageScanner : MonoBehaviour
     void OnImageFound()
     {
         IsScanning = false;
+        scannerObject.SetActive(false);
+        imageFoundObject.SetActive(true);
         onImageFound.Invoke();
     }
 
