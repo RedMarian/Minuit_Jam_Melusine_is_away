@@ -20,8 +20,14 @@ public class GameController : MonoBehaviour
     public HubbyVariables Hubby2CanSee;
 
     public MelusionVariables MelusineVariables;
+    
+    public float Cleanliness = 0f;
+    public float CleanTime = 60f;
 
-    public int Cleanliness = 0;
+    public float hubbyFireDelay = 2f;
+    public float hubbyRightChance = 0.4f;
+    public float hubbyLeftChance = 0.5f;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +38,7 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((MelusineVariables.MelusinePosition == 1 && Hubby1CanSee) || (MelusineVariables.MelusinePosition ==2 && Hubby2CanSee))
+        if ((MelusineVariables.MelusinePosition == 1 && Hubby1CanSee.HubbyCanSee) || (MelusineVariables.MelusinePosition ==2 && Hubby2CanSee.HubbyCanSee))
         {
             GameOver();
         }
@@ -43,7 +49,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            CleanlinessIncrese();
+            Cleanliness += Time.deltaTime * CleanTime / 60f;
         }
         
         CameraTransform.position = new Vector3(camPosX, CameraTransform.position.y, CameraTransform.position.z);
@@ -124,20 +130,20 @@ public class GameController : MonoBehaviour
         while (true)
         {
             float rand = Random.Range(0f, 1f);
-            if (rand < 0.4f)
+            if (rand < hubbyRightChance)
             {
                 HubbyRightFire();
                 //yield return new WaitForSeconds(0.5f);
                 //HubbyRightLeaves();
             }
-            else if (rand > 0.9f)
+            else if (rand > hubbyRightChance + hubbyLeftChance) // we need the value after checking hubby right
             {
                 HubbyLeftFire();
                 //yield return new WaitForSeconds(0.5f);
                 //HubbyLeftLeaves();
             }
             //Debug.Log(rand);
-            yield return new WaitForSeconds(2);   
+            yield return new WaitForSeconds(hubbyFireDelay);   
         }
     }
 
