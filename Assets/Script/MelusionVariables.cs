@@ -5,8 +5,6 @@ using UnityEngine;
 public class MelusionVariables : MonoBehaviour
 {
     public int MelusinePosition = 2;
-    public GameObject PopInVictory;
-    public GameObject PopInGameOver;
     
     // Start is called before the first frame update
     public void MelusineIsOnPose(int pose)

@@ -43,7 +43,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            CleanlinessIncrese();
+            
         }
         
         CameraTransform.position = new Vector3(camPosX, CameraTransform.position.y, CameraTransform.position.z);
