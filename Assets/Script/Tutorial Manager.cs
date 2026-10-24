@@ -31,6 +31,9 @@ public class TutorialManager : MonoBehaviour
 
     public GameObject readyText;
 
+    public AudioSource audioSource;
+    public AudioClip[] popSounds; // one of them is played when a Tap Here or the ready text shows up
+
     public bool isAskingForLeft = false;
     public bool hasPressedLeft = false;
     public bool isAskingForRight = false;
@@ -133,6 +136,7 @@ public class TutorialManager : MonoBehaviour
         isAskingForRight = true;
         HighlightButton(rightButtonImage);
         rightTapHere.SetActive(true);
+        PlayPopSound();
         yield return new WaitUntil(() => hasPressedRight);
         isAskingForRight = false;
         rightTapHere.SetActive(false);
@@ -142,6 +146,7 @@ public class TutorialManager : MonoBehaviour
         isAskingForLeft = true;
         HighlightButton(leftButtonImage);
         leftTapHere.SetActive(true);
+        PlayPopSound();
         yield return new WaitUntil(() => hasPressedLeft);
         isAskingForLeft = false;
         leftTapHere.SetActive(false);
@@ -151,6 +156,7 @@ public class TutorialManager : MonoBehaviour
         isAskingForHide = true;
         HighlightButton(hideButtonImage);
         hideTapHere.SetActive(true);
+        PlayPopSound();
         yield return new WaitUntil(() => hasPressedHide);
         isAskingForHide = false;
         hideTapHere.SetActive(false);
@@ -158,6 +164,7 @@ public class TutorialManager : MonoBehaviour
 
         // Ready, press anywhere to start the game
         readyText.SetActive(true);
+        PlayPopSound();
         SetAlpha(leftButtonImage, dimmedAlpha);
         SetAlpha(rightButtonImage, dimmedAlpha);
         SetAlpha(hideButtonImage, dimmedAlpha);
@@ -182,6 +189,11 @@ public class TutorialManager : MonoBehaviour
         SetAlpha(leftButtonImage, active == null || active == leftButtonImage ? highlightAlpha : dimmedAlpha);
         SetAlpha(rightButtonImage, active == null || active == rightButtonImage ? highlightAlpha : dimmedAlpha);
         SetAlpha(hideButtonImage, active == null || active == hideButtonImage ? highlightAlpha : dimmedAlpha);
+    }
+
+    void PlayPopSound()
+    {
+        audioSource.PlayOneShot(popSounds[Random.Range(0, popSounds.Length)]);
     }
 
     void SetAlpha(Image image, float alpha)
