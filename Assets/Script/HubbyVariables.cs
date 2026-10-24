@@ -15,4 +15,9 @@ public class HubbyVariables : MonoBehaviour
     {
         HubbyCanSee = false;
     }
+    
+    public void PlaySound(AudioClip clip)
+    {
+        this.gameObject.GetComponent<AudioSource>().PlayOneShot(clip);
+    }
 }

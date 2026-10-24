@@ -8,6 +8,7 @@ public class MelusionVariables : MonoBehaviour
     public GameObject PopInWin;
     public GameObject PopInLose;
     
+    
     // Start is called before the first frame update
     public void MelusineIsOnPose(int pose)
     {
@@ -22,6 +23,11 @@ public class MelusionVariables : MonoBehaviour
     public void PopInLoseDo()
     {
         PopInLose.SetActive(true);
+    }
+
+    public void PlaySound(AudioClip clip)
+    {
+        this.gameObject.GetComponent<AudioSource>().PlayOneShot(clip);
     }
     
 }

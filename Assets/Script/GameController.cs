@@ -29,8 +29,10 @@ public class GameController : MonoBehaviour
     public float hubbyFireDelay = 2f;
     public float hubbyRightChance = 0.4f;
     public float hubbyLeftChance = 0.5f;
-    
-    
+
+    //public AudioSource sdAmb;
+    public AudioSource sdsfx1;
+    public AudioSource sdsfx2;
     
     // Start is called before the first frame update
     void Start()
@@ -45,10 +47,12 @@ public class GameController : MonoBehaviour
         if ((MelusineVariables.MelusinePosition == 1 && Hubby1CanSee.HubbyCanSee) || (MelusineVariables.MelusinePosition ==2 && Hubby2CanSee.HubbyCanSee))
         {
             GameOver();
+            sdsfx2.Play();
         }
         else if (Cleanliness >= 100)
         {
             Victory();
+            sdsfx1.Play();
         }
         else
         {
