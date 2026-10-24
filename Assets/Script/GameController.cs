@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class GameController : MonoBehaviour
@@ -24,13 +23,10 @@ public class GameController : MonoBehaviour
     
     public float Cleanliness = 0f;
     public float CleanTime = 60f;
-    public Slider Progress;
 
     public float hubbyFireDelay = 2f;
     public float hubbyRightChance = 0.4f;
     public float hubbyLeftChance = 0.5f;
-    
-    
     
     // Start is called before the first frame update
     void Start()
@@ -42,18 +38,18 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((MelusineVariables.MelusinePosition == 1 && Hubby1CanSee.HubbyCanSee) || (MelusineVariables.MelusinePosition ==2 && Hubby2CanSee.HubbyCanSee))
+        if ((MelusineVariables.MelusinePosition == 1 && Hubby1CanSee) || (MelusineVariables.MelusinePosition ==2 && Hubby2CanSee))
         {
             GameOver();
         }
-        else if (Cleanliness >= CleanTime)
+
+        if (Cleanliness >= CleanTime)
         {
             Victory();
         }
         else
         {
             Cleanliness += Time.deltaTime;
-            Progress.value = Cleanliness;
         }
         
         CameraTransform.position = new Vector3(camPosX, CameraTransform.position.y, CameraTransform.position.z);
@@ -61,7 +57,7 @@ public class GameController : MonoBehaviour
         //Debug.Log("I'm live");
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            MaxCamPosXDef(-1f);
+            MaxCamPosXDef(-1.5f);
             PressingLeft(true);
             //Debug.Log("PressingLeft");
         }
@@ -74,7 +70,7 @@ public class GameController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            MaxCamPosXDef(1f);
+            MaxCamPosXDef(1.5f);
             PressingRight(true);
             //Debug.Log("PressingRight");
             
@@ -82,11 +78,6 @@ public class GameController : MonoBehaviour
         {
             PressingRight(false);
             MaxCamPosXDef(0f);
-        }
-
-        if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            Hide();
         }
     }
 
@@ -103,11 +94,6 @@ public class GameController : MonoBehaviour
         MelusineAnimator.SetBool("RightIsDown", state);
         //(1f, state);
         //Debug.Log("Melusine turns right"+state);
-    }
-
-    public void Hide()
-    {
-        MelusineAnimator.SetTrigger("Hide");
     }
     
     public void MaxCamPosXDef(float target)
@@ -150,7 +136,7 @@ public class GameController : MonoBehaviour
                 //yield return new WaitForSeconds(0.5f);
                 //HubbyRightLeaves();
             }
-            else if (rand > hubbyLeftChance) // we need the value after checking hubby right
+            else if (rand > hubbyRightChance + hubbyLeftChance) // we need the value after checking hubby right
             {
                 HubbyLeftFire();
                 //yield return new WaitForSeconds(0.5f);
@@ -167,7 +153,7 @@ public class GameController : MonoBehaviour
     {
         StopAllCoroutines();
         MelusineAnimator.SetTrigger("GameOver");
-        //Debug.Log("Game Over");
+        Debug.Log("Game Over");
         // Make PopIn appear
     }
 
@@ -175,7 +161,7 @@ public class GameController : MonoBehaviour
     {
         StopAllCoroutines();
         MelusineAnimator.SetTrigger("Victory");
-        //Debug.Log("Victory");
+        Debug.Log("Victory");
         // Make PopIn apear
     }
 }
