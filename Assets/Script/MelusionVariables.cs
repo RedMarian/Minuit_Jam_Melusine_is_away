@@ -5,6 +5,8 @@ using UnityEngine;
 public class MelusionVariables : MonoBehaviour
 {
     public int MelusinePosition = 2;
+    public GameObject PopInWin;
+    public GameObject PopInLose;
     
     // Start is called before the first frame update
     public void MelusineIsOnPose(int pose)
@@ -12,9 +14,14 @@ public class MelusionVariables : MonoBehaviour
         MelusinePosition = pose;
         // 0 = Hidden, 1 = left, 2 = right
     }
-    public void PopIn(GameObject popIn)
+    public void PopInWinDo()
     {
-        popIn.SetActive(true);
+        PopInWin.SetActive(true);
+    }
+
+    public void PopInLoseDo()
+    {
+        PopInLose.SetActive(true);
     }
     
 }
