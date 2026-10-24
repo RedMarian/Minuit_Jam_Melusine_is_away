@@ -72,7 +72,7 @@ AnimationClip:
     curve:
     - time: 0
       value: {fileID: 21300000, guid: c7b505a1080614549a61fb58e62a5876, type: 3}
-    - time: 0.33333334
+    - time: 0.16666667
       value: {fileID: 21300000, guid: f34de8a026315f84c9a38b46bbd82e67, type: 3}
     - time: 1
       value: {fileID: 21300000, guid: f34de8a026315f84c9a38b46bbd82e67, type: 3}
@@ -331,7 +331,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.33333334
+  - time: 0.25
     functionName: ThisHubbyCanSee
     data: 
     objectReferenceParameter: {fileID: 0}

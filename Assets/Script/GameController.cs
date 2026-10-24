@@ -26,13 +26,20 @@ public class GameController : MonoBehaviour
     public float CleanTime = 60f;
     public Slider Progress;
 
-    public float hubbyFireDelay = 2f;
-    public float hubbyRightChance = 0.4f;
-    public float hubbyLeftChance = 0.5f;
+    public enum Husband { None, Left, Right, Both }
+
+    public float hubbyMinDelay = 1f;
+    public float hubbyMaxDelay = 3.3f;
+    public float hubbyRandomHusbandDelay = 2f; // delays below this force the other husband
+    public float hubbyBothChance = 0.3f; // chance both come out after a hubbyRandomHusbandDelay
+    public float hubbyFireDelay;
+    public Husband lastHusband = Husband.None;
 
     //public AudioSource sdAmb;
     public AudioSource sdsfx1;
     public AudioSource sdsfx2;
+    
+    private bool isGameOver = false;
     
     // Start is called before the first frame update
     void Start()
@@ -44,22 +51,23 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isGameOver) return;
         if ((MelusineVariables.MelusinePosition == 1 && Hubby1CanSee.HubbyCanSee) || (MelusineVariables.MelusinePosition ==2 && Hubby2CanSee.HubbyCanSee))
         {
             GameOver();
             sdsfx2.Play();
         }
-        else if (Cleanliness >= 100)
+        else if (Cleanliness >= CleanTime)
         {
             Victory();
             sdsfx1.Play();
         }
         else
         {
-            Cleanliness += Time.deltaTime * CleanTime / 60f;
+            Cleanliness += Time.deltaTime;
             Progress.value = Cleanliness;
         }
-        
+
         CameraTransform.position = new Vector3(camPosX, CameraTransform.position.y, CameraTransform.position.z);
         camPosX = Mathf.Lerp(camPosX, maxCamPosX, lerpValue);
         //Debug.Log("I'm live");
@@ -125,12 +133,21 @@ public class GameController : MonoBehaviour
 
     void HubbyLeftFire()
     {
+        lastHusband = Husband.Left;
         HubbyLeftAnimator.SetTrigger("Hubby2");
     }
 
     void HubbyRightFire()
     {
+        lastHusband = Husband.Right;
         HubbyRightAnimator.SetTrigger("Hubby1");
+    }
+
+    void HubbyBothFire()
+    {
+        HubbyLeftFire();
+        HubbyRightFire();
+        lastHusband = Husband.Both;
     }
 
     void HubbyLeftLeaves()
@@ -142,26 +159,44 @@ public class GameController : MonoBehaviour
     {
         HubbyRightAnimator.SetTrigger("Hubby1Leave");
     }
-    
+
+    Husband NextHusband()
+    {
+        // short delays force the other husband, long delays can bring out both
+        if (hubbyFireDelay < hubbyRandomHusbandDelay)
+        {
+            if (lastHusband == Husband.Left) return Husband.Right;
+            if (lastHusband == Husband.Right) return Husband.Left;
+        }
+        else if (Random.value < hubbyBothChance)
+        {
+            return Husband.Both;
+        }
+        // first husband, or after both came out
+        return Random.Range(0, 2) == 0 ? Husband.Left : Husband.Right;
+    }
+
     IEnumerator Dance()
     {
         while (true)
         {
-            float rand = Random.Range(0f, 1f);
-            if (rand < hubbyRightChance)
-            {
-                HubbyRightFire();
-                //yield return new WaitForSeconds(0.5f);
-                //HubbyRightLeaves();
-            }
-            else if (rand > hubbyLeftChance) // we need the value after checking hubby right
+            hubbyFireDelay = Random.Range(hubbyMinDelay, hubbyMaxDelay);
+            yield return new WaitForSeconds(hubbyFireDelay);
+
+            Husband next = NextHusband();
+            if (next == Husband.Left)
             {
                 HubbyLeftFire();
-                //yield return new WaitForSeconds(0.5f);
-                //HubbyLeftLeaves();
             }
-            //Debug.Log(rand);
-            yield return new WaitForSeconds(hubbyFireDelay);   
+            else if (next == Husband.Right)
+            {
+                HubbyRightFire();
+            }
+            else
+            {
+                HubbyBothFire();
+            }
+            //Debug.Log(hubbyFireDelay + " " + lastHusband);
         }
     }
 
@@ -171,6 +206,7 @@ public class GameController : MonoBehaviour
     {
         StopAllCoroutines();
         MelusineAnimator.SetTrigger("GameOver");
+        isGameOver = true;
         //Debug.Log("Game Over");
         // Make PopIn appear
     }

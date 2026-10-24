@@ -537,11 +537,14 @@ MonoBehaviour:
   Hubby2CanSee: {fileID: 101551819}
   MelusineVariables: {fileID: 1662586223}
   Cleanliness: 0
-  CleanTime: 15
+  CleanTime: 20
   Progress: {fileID: 471027222}
+  hubbyMinDelay: 1
+  hubbyMaxDelay: 3.3
+  hubbyRandomHusbandDelay: 2
+  hubbyBothChance: 0.8
   hubbyFireDelay: 1.6
-  hubbyRightChance: 0.35
-  hubbyLeftChance: 0.65
+  lastHusband: 0
   sdsfx1: {fileID: 992541998}
   sdsfx2: {fileID: 170383654}
 --- !u!4 &129154267
@@ -1169,7 +1172,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1759045837}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 15
+  m_MaxValue: 20
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
