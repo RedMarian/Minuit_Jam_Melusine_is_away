@@ -441,11 +441,11 @@ MonoBehaviour:
   MelusineVariables: {fileID: 1662586223}
   progress: {fileID: 471027222}
   Cleanliness: 0
-  CleanTime: 15
+  CleanTime: 30
   initialDelay: 1
   hubbyFireDelay: 1.6
-  hubbyRightChance: 0.35
-  hubbyLeftChance: 0.65
+  hubbyRightChance: 0.5
+  hubbyLeftChance: 0.5
 --- !u!4 &129154267
 Transform:
   m_ObjectHideFlags: 0
@@ -497,7 +497,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -846,7 +846,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1759045837}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 15
+  m_MaxValue: 30
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:

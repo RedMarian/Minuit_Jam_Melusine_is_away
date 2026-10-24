@@ -31,6 +31,8 @@ public class GameController : MonoBehaviour
     public float hubbyRightChance = 0.4f;
     public float hubbyLeftChance = 0.5f;
     
+    
+    private bool isGameOver = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,6 +43,8 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isGameOver) return;
+        
         if ((MelusineVariables.MelusinePosition == 1 && Hubby1CanSee.HubbyCanSee) || (MelusineVariables.MelusinePosition ==2 && Hubby2CanSee.HubbyCanSee))
         {
             GameOver();
@@ -83,6 +87,11 @@ public class GameController : MonoBehaviour
             PressingRight(false);
             MaxCamPosXDef(0f);
         }
+        
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            Hide();
+        }
     }
 
     #region PlayerController
@@ -98,6 +107,11 @@ public class GameController : MonoBehaviour
         MelusineAnimator.SetBool("RightIsDown", state);
         //(1f, state);
         //Debug.Log("Melusine turns right"+state);
+    }
+    
+    public void Hide()
+    {
+        MelusineAnimator.SetTrigger("Hide");
     }
     
     public void MaxCamPosXDef(float target)
@@ -141,7 +155,7 @@ public class GameController : MonoBehaviour
                 //yield return new WaitForSeconds(0.5f);
                 //HubbyRightLeaves();
             }
-            else if (rand > hubbyRightChance + hubbyLeftChance) // we need the value after checking hubby right
+            else if (rand < hubbyRightChance + hubbyLeftChance) // we need the value after checking hubby right
             {
                 HubbyLeftFire();
                 //yield return new WaitForSeconds(0.5f);
@@ -159,6 +173,7 @@ public class GameController : MonoBehaviour
         StopAllCoroutines();
         MelusineAnimator.SetTrigger("GameOver");
         Debug.Log("Game Over");
+        isGameOver = true;
         // Make PopIn appear
     }
 
