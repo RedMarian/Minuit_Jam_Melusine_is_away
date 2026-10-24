@@ -207,6 +207,8 @@ public class GameController : MonoBehaviour
         StopAllCoroutines();
         MelusineAnimator.SetTrigger("GameOver");
         isGameOver = true;
+        HubbyLeftAnimator.SetBool("SeeSnake", true);
+        HubbyRightAnimator.SetBool("SeeSnake", true);
         //Debug.Log("Game Over");
         // Make PopIn appear
     }
