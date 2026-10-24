@@ -1505,10 +1505,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: VictoryPopIn
       objectReference: {fileID: 0}
-    - target: {fileID: 540578403443747630, guid: 454e8afa8fa88b743989b11be226cb89, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7844961867668366434, guid: 454e8afa8fa88b743989b11be226cb89, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1669,15 +1665,15 @@ MonoBehaviour:
       m_Calls: []
   m_text: Home
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c38be1a1b62efc64f8dc6a0fd49b2a25, type: 2}
+  m_sharedMaterial: {fileID: 874011744650529770, guid: c38be1a1b62efc64f8dc6a0fd49b2a25, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1694,8 +1690,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 40.96
+  m_fontSizeBase: 40.96
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2459,8 +2455,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -161.79993, y: 25.5}
-  m_SizeDelta: {x: 323.59998, y: 53.161255}
+  m_AnchoredPosition: {x: -77.4, y: 30.6}
+  m_SizeDelta: {x: 131.4, y: 58.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1398044663
 MonoBehaviour:
@@ -2538,7 +2534,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: -1486809496, guid: be9a8ed426cc38f41bcef1c99c442d3f, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2547,7 +2543,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 2.5
 --- !u!222 &1398044665
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3586,10 +3582,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 872076555}
-    - target: {fileID: 1521683860422022875, guid: 4fa458b0bfb7d0b42aa7eac83b4c9f17, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 5200646652247220386, guid: 4fa458b0bfb7d0b42aa7eac83b4c9f17, type: 3}
       propertyPath: m_Name
       value: GameOverPopIn
