@@ -97,7 +97,7 @@
         overlay.style.display = "none";
       }
 
-      window.mindarStartScan = async function (receiverName, targetUrl) {
+      window.mindarStartScan = async function (receiverName, targetUrl, targetCount) {
         if (mindar) return;
         receiver = receiverName;
         if (!window.MindARThree) {
@@ -116,12 +116,16 @@
         });
         mindar = instance;
 
-        var anchor = instance.addAnchor(0);
-        anchor.onTargetFound = function () {
-          if (mindar !== instance) return;
-          teardown();
-          sendToUnity("OnImageFound");
-        };
+        // One anchor per image in the .mind file; whichever is seen first wins.
+        for (var i = 0; i < Math.max(1, targetCount); i++) {
+          (function (index) {
+            instance.addAnchor(index).onTargetFound = function () {
+              if (mindar !== instance) return;
+              teardown();
+              sendToUnity("OnImageFound", String(index));
+            };
+          })(i);
+        }
 
         try {
           await instance.start();

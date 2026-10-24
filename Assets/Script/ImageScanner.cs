@@ -10,6 +10,8 @@ public class ImageScanner : MonoBehaviour
 {
     [Tooltip("Compiled MindAR target file, relative to Assets/StreamingAssets")]
     [SerializeField] string targetFile = "targets.mind";
+    [Tooltip("How many images were compiled into the .mind file. Finding any one of them counts.")]
+    [SerializeField, Min(1)] int targetCount = 1;
 
     public UnityEvent onImageFound;
     public UnityEvent onScanCancelled;
@@ -17,11 +19,14 @@ public class ImageScanner : MonoBehaviour
 
     public bool IsScanning { get; private set; }
 
+    /// <summary>Index (in .mind compile order) of the image that was found last, or -1.</summary>
+    public int LastFoundIndex { get; private set; } = -1;
+
 #if UNITY_WEBGL && !UNITY_EDITOR
-    [DllImport("__Internal")] static extern void MindAR_StartScan(string receiverName, string targetUrl);
+    [DllImport("__Internal")] static extern void MindAR_StartScan(string receiverName, string targetUrl, int targetCount);
     [DllImport("__Internal")] static extern void MindAR_StopScan();
 #else
-    static void MindAR_StartScan(string receiverName, string targetUrl) => Debug.Log($"[Scanner] StartScan {targetUrl} (editor stub, use the context menu to simulate)");
+    static void MindAR_StartScan(string receiverName, string targetUrl, int targetCount) => Debug.Log($"[Scanner] StartScan {targetUrl} x{targetCount} (editor stub, use the context menu to simulate)");
     static void MindAR_StopScan() => Debug.Log("[Scanner] StopScan (editor stub)");
 #endif
 
@@ -30,7 +35,7 @@ public class ImageScanner : MonoBehaviour
     {
         if (IsScanning) return;
         IsScanning = true;
-        MindAR_StartScan(gameObject.name, Application.streamingAssetsPath + "/" + targetFile);
+        MindAR_StartScan(gameObject.name, Application.streamingAssetsPath + "/" + targetFile, targetCount);
     }
 
     public void CancelScan()
@@ -44,9 +49,12 @@ public class ImageScanner : MonoBehaviour
 
     // --- Called from JavaScript via SendMessage (names must match the template) ---
 
-    void OnImageFound()
+    // index arrives as a string: SendMessage only passes strings/numbers and a string parses reliably
+    void OnImageFound(string index)
     {
         IsScanning = false;
+        LastFoundIndex = int.TryParse(index, out var i) ? i : -1;
+        Debug.Log($"[Scanner] Found image {LastFoundIndex}");
         onImageFound.Invoke();
     }
 
@@ -64,5 +72,5 @@ public class ImageScanner : MonoBehaviour
     }
 
     [ContextMenu("Simulate Image Found")]
-    void SimulateImageFound() => OnImageFound();
+    void SimulateImageFound() => OnImageFound("0");
 }
