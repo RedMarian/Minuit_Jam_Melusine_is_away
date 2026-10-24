@@ -356,7 +356,7 @@ MonoBehaviour:
   highlightAlpha: 0
   initialDelay: 1
   delayBetweenSteps: 0.5
-  nextSceneId: 2
+  nextSceneId: 1
   readyText: {fileID: 1490638428}
   audioSource: {fileID: 172394316}
   popSounds:

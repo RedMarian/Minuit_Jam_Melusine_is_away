@@ -173,6 +173,9 @@ public class TutorialManager : MonoBehaviour
         tutorialDone = true;
         Debug.Log("Tutorial done");
 
+        PlayerPrefs.SetInt(MainMenuManager.TutorialSeenKey, 1);
+        PlayerPrefs.Save(); // needed on WebGL to write it to the browser storage right away
+
         if (nextSceneId >= 0)
         {
             SceneManager.LoadScene(nextSceneId);
