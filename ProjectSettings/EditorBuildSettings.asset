@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MelusineisAway.unity
     guid: 12538ecddb2cd15419e745d7018c9a28
+  - enabled: 1
+    path: Assets/Scenes/Tutorial.unity
+    guid: 31051aea42f00674e99922080870369e
   m_configObjects: {}
