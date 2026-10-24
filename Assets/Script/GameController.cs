@@ -78,14 +78,16 @@ public class GameController : MonoBehaviour
         while (true)
         {
             float rand = Random.Range(0f, 1f);
-            if (rand < 0.2f)
+            if (rand < 0.4f)
             {
                 HubbyRightFire();
+                yield return new WaitForSeconds(0.5f);
                 HubbyRightLeaves();
             }
-            if (rand > 0.8f)
+            else if (rand > 0.9f)
             {
                 HubbyLeftFire();
+                yield return new WaitForSeconds(0.5f);
                 HubbyLeftLeaves();
             }
             Debug.Log(rand);
