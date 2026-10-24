@@ -38,7 +38,7 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((MelusineVariables.MelusinePosition == 1 && Hubby1CanSee) || (MelusineVariables.MelusinePosition ==2 && Hubby2CanSee))
+        if ((MelusineVariables.MelusinePosition == 1 && Hubby1CanSee.HubbyCanSee) || (MelusineVariables.MelusinePosition ==2 && Hubby2CanSee.HubbyCanSee))
         {
             GameOver();
         }

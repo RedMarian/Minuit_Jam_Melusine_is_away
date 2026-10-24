@@ -604,6 +604,10 @@ MonoBehaviour:
   Hubby2CanSee: {fileID: 101551819}
   MelusineVariables: {fileID: 1662586223}
   Cleanliness: 0
+  CleanTime: 60
+  hubbyFireDelay: 2
+  hubbyRightChance: 0.4
+  hubbyLeftChance: 0.5
 --- !u!4 &129154267
 Transform:
   m_ObjectHideFlags: 0
