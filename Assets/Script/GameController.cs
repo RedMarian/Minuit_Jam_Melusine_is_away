@@ -46,13 +46,13 @@ public class GameController : MonoBehaviour
         {
             GameOver();
         }
-        else if (Cleanliness >= 100)
+        else if (Cleanliness >= CleanTime)
         {
             Victory();
         }
         else
         {
-            Cleanliness += Time.deltaTime * CleanTime / 60f;
+            Cleanliness += Time.deltaTime;
             Progress.value = Cleanliness;
         }
         
