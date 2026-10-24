@@ -219,48 +219,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e73c774404d56d14894686deec20ebe3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Melusine: {fileID: 1662586223}
   RoundDuration: 60
   ProgressBar: {fileID: 1461887134}
   FakeoutStartTime: 45
-  FakeoutChance: 0.5
-  MelusineRenderer: {fileID: 1662586221}
-  NeutralSprite: {fileID: 21300000, guid: 2b365b0815e77f24cba2ead0011877d3, type: 3}
-  CoverSprites:
-  - {fileID: 21300000, guid: 2b365b0815e77f24cba2ead0011877d3, type: 3}
-  - {fileID: 21300000, guid: 6bc17c7544c3f424296235e4eea71d43, type: 3}
-  - {fileID: 21300000, guid: 5e4682322256f504bbbc928d7132e80a, type: 3}
-  - {fileID: 21300000, guid: 2cfe96c0cc107b8419b0c86df36a9d7c, type: 3}
-  PeekerPrefabs:
-  - {fileID: 4020652541245769946, guid: 19cdc47cb3e6e2340a1cf1123aeefd65, type: 3}
-  WarningPrefab: {fileID: 0}
-  NorthWest:
-    showWarning: 0
-    warningPosition: {x: 0, y: 0, z: 0}
-    spawnPosition: {x: -2.5, y: 2.5, z: 0}
-    peekPosition: {x: -1, y: 2.5, z: 0}
-  NorthEast:
-    showWarning: 0
-    warningPosition: {x: 0, y: 0, z: 0}
-    spawnPosition: {x: 2.5, y: 2.5, z: 0}
-    peekPosition: {x: 1, y: 2.5, z: 0}
-  SouthWest:
-    showWarning: 1
-    warningPosition: {x: -8, y: -4, z: 0}
-    spawnPosition: {x: -10, y: -6, z: 0}
-    peekPosition: {x: -6.5, y: -3.5, z: 0}
-  SouthEast:
-    showWarning: 1
-    warningPosition: {x: 8, y: -4, z: 0}
-    spawnPosition: {x: 10, y: -6, z: 0}
-    peekPosition: {x: 6.5, y: -3.5, z: 0}
-  MinDelay: 1
-  MaxDelay: 1.5
-  WarningDuration: 0.4
-  MoveInDuration: 0.5
-  PeekDuration: 0.4
-  GraceWindow: 0.2
-  MoveOutDuration: 0.4
-  ChordWindow: 0.12
   OnSeen:
     m_PersistentCalls:
       m_Calls: []
@@ -639,6 +601,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1662586222}
   - component: {fileID: 1662586221}
+  - component: {fileID: 1662586223}
   m_Layer: 0
   m_Name: Melusine01
   m_TagString: Untagged
@@ -713,6 +676,26 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1662586223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1662586219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f04982c25070ad44cb6b17131cc12bef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Renderer: {fileID: 1662586221}
+  NeutralSprite: {fileID: 21300000, guid: 2b365b0815e77f24cba2ead0011877d3, type: 3}
+  CoverSprites:
+  - {fileID: 21300000, guid: 2b365b0815e77f24cba2ead0011877d3, type: 3}
+  - {fileID: 21300000, guid: 6bc17c7544c3f424296235e4eea71d43, type: 3}
+  - {fileID: 21300000, guid: 5e4682322256f504bbbc928d7132e80a, type: 3}
+  - {fileID: 21300000, guid: 2cfe96c0cc107b8419b0c86df36a9d7c, type: 3}
+  ChordWindow: 0.12
 --- !u!1 &1783460369
 GameObject:
   m_ObjectHideFlags: 0
@@ -750,6 +733,83 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1969385684
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1969385686}
+  - component: {fileID: 1969385685}
+  m_Layer: 0
+  m_Name: Peeker Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1969385685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1969385684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 799bde1e3fc60d64990b5e7ebf483851, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Game: {fileID: 129154266}
+  Melusine: {fileID: 1662586223}
+  PeekerPrefabs:
+  - {fileID: 4020652541245769946, guid: 19cdc47cb3e6e2340a1cf1123aeefd65, type: 3}
+  WarningPrefab: {fileID: 0}
+  NorthWest:
+    showWarning: 0
+    warningPosition: {x: 0, y: 0, z: 0}
+    spawnPosition: {x: -2.5, y: 2.5, z: 0}
+    peekPosition: {x: -1, y: 2.5, z: 0}
+  NorthEast:
+    showWarning: 0
+    warningPosition: {x: 0, y: 0, z: 0}
+    spawnPosition: {x: 2.5, y: 2.5, z: 0}
+    peekPosition: {x: 1, y: 2.5, z: 0}
+  SouthWest:
+    showWarning: 1
+    warningPosition: {x: -8, y: -4, z: 0}
+    spawnPosition: {x: -10, y: -6, z: 0}
+    peekPosition: {x: -6.5, y: -3.5, z: 0}
+  SouthEast:
+    showWarning: 1
+    warningPosition: {x: 8, y: -4, z: 0}
+    spawnPosition: {x: 10, y: -6, z: 0}
+    peekPosition: {x: 6.5, y: -3.5, z: 0}
+  MinDelay: 1
+  MaxDelay: 1.5
+  WarningDuration: 0.4
+  MoveInDuration: 0.5
+  PeekDuration: 0.4
+  GraceWindow: 0.2
+  MoveOutDuration: 0.4
+  FakeoutChance: 0.5
+--- !u!4 &1969385686
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1969385684}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -759,3 +819,4 @@ SceneRoots:
   - {fileID: 129154267}
   - {fileID: 1009323696}
   - {fileID: 106131125}
+  - {fileID: 1969385686}
