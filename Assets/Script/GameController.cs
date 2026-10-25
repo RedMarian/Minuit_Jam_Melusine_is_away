@@ -48,7 +48,7 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //StartCoroutine(Dance());
+        StartCoroutine(Dance());
         camPosX = 0f;
     }
 
