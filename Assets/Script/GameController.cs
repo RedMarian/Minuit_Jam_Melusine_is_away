@@ -43,11 +43,12 @@ public class GameController : MonoBehaviour
     
     private bool isGameOver = false;
     private bool isVictorious = false;
-    
+
+    private float t;
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(Dance());
+        //StartCoroutine(Dance());
         camPosX = 0f;
     }
 
@@ -81,7 +82,8 @@ public class GameController : MonoBehaviour
         }
 
         CameraTransform.position = new Vector3(camPosX, CameraTransform.position.y, CameraTransform.position.z);
-        camPosX = Mathf.Lerp(camPosX, maxCamPosX, lerpValue);
+        t += Time.deltaTime * lerpValue;
+        camPosX = Mathf.Lerp(camPosX, maxCamPosX, t);
         //Debug.Log("I'm live");
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
@@ -136,6 +138,7 @@ public class GameController : MonoBehaviour
     private void MaxCamPosXDef(float target)
     {
         maxCamPosX =target;
+        t = 0f;
     }
 
     #endregion
