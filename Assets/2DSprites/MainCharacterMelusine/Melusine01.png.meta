@@ -328,7 +328,7 @@ TextureImporter:
         width: 511
         height: 511
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -336,6 +336,111 @@ TextureImporter:
       bones: []
       spriteID: 173424d2f5c0fb948b47cc60241c8f20
       internalID: -834615718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: splish_01
+      rect:
+        serializedVersion: 2
+        x: 1026
+        y: 304
+        width: 188
+        height: 152
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6943cd5b4ea9344bad7e8dbbc168ac6
+      internalID: -1295960917
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: splish_02
+      rect:
+        serializedVersion: 2
+        x: 1261
+        y: 285
+        width: 190
+        height: 176
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1b749b590ed6ae4c834f5ce88e15c54
+      internalID: -2022736257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: splish_03
+      rect:
+        serializedVersion: 2
+        x: 1017
+        y: 50
+        width: 113
+        height: 144
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37352b013ddc14c419eeb4fa63c63ef9
+      internalID: -2044542121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: splish_05
+      rect:
+        serializedVersion: 2
+        x: 1144
+        y: 36
+        width: 185
+        height: 247
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 952ce2fb4b0ff4d47a3e58cc3b3a360c
+      internalID: 1077043361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: splish_06
+      rect:
+        serializedVersion: 2
+        x: 1359
+        y: 67
+        width: 127
+        height: 103
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04d7576ec64f8044fa96f5eaa7b569f3
+      internalID: -1417871475
       vertices: []
       indices: 
       edges: []
@@ -354,7 +459,6 @@ TextureImporter:
       Melusine01_0: -193429020
       Melusine01_1: 1418279187
       Melusine01_10: -1326610320
-      Melusine01_11: 2126397314
       Melusine01_12: -474408080
       Melusine01_2: -1098506727
       Melusine01_3: -834615718
@@ -364,6 +468,11 @@ TextureImporter:
       Melusine01_7: -432722852
       Melusine01_8: 1105445093
       Melusine01_9: 1407197133
+      splish_01: 2126397314
+      splish_02: -2022736257
+      splish_03: -2044542121
+      splish_05: 1077043361
+      splish_06: -1417871475
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
