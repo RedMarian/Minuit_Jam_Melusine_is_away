@@ -5373,7 +5373,7 @@ MonoBehaviour:
   hubbyMinDelay: 1
   hubbyMaxDelay: 3.3
   hubbyRandomHusbandDelay: 2.5
-  hubbyBothChance: 0.7
+  hubbyBothChance: 0.4
   hubbyFireDelay: 1.6
   sdsfx1: {fileID: 992541998}
   sdsfx2: {fileID: 170383654}
