@@ -35,6 +35,7 @@ public class GameController : MonoBehaviour
     public float hubbyBothChance = 0.3f; // chance both come out after a hubbyRandomHusbandDelay
     public float hubbyFireDelay;
     private Husband lastHusband = Husband.None;
+    private float lastFireTime;
 
     //public AudioSource sdAmb;
     public AudioSource sdsfx1;
@@ -54,20 +55,29 @@ public class GameController : MonoBehaviour
     void Update()
     {
         if (isGameOver || isVictorious) return;
-        if ((MelusineVariables.MelusinePosition == 1 && Hubby1CanSee.HubbyCanSee) || (MelusineVariables.MelusinePosition ==2 && Hubby2CanSee.HubbyCanSee))
+        switch (MelusineVariables.MelusinePosition)
         {
-            GameOver();
-            sdsfx2.Play();
-        }
-        else if (Cleanliness >= CleanTime)
-        {
-            Victory();
-            sdsfx1.Play();
-        }
-        else
-        {
-            Cleanliness += Time.deltaTime;
-            Progress.value = Cleanliness;
+            case 1 when Hubby1CanSee.HubbyCanSee:
+            case 2 when Hubby2CanSee.HubbyCanSee:
+            case 4 when (Hubby1CanSee.HubbyCanSee || Hubby2CanSee.HubbyCanSee):
+                GameOver();
+                sdsfx2.Play();
+                break;
+            default:
+            {
+                if (Cleanliness >= CleanTime)
+                {
+                    Victory();
+                    sdsfx1.Play();
+                }
+                else
+                {
+                    Cleanliness += Time.deltaTime;
+                    Progress.value = Cleanliness;
+                }
+
+                break;
+            }
         }
 
         CameraTransform.position = new Vector3(camPosX, CameraTransform.position.y, CameraTransform.position.z);
@@ -161,6 +171,21 @@ public class GameController : MonoBehaviour
         HubbyRightAnimator.SetTrigger("Hubby1Leave");
     }
 
+    bool IsHubbyIdle(Animator animator, string sleepingState)
+    {
+        return animator.GetCurrentAnimatorStateInfo(0).IsName(sleepingState) && !animator.IsInTransition(0);
+    }
+
+    bool CanFire(Husband husband)
+    {
+        bool leftIdle = IsHubbyIdle(HubbyLeftAnimator, "HubbyLeft_sleeping");
+        bool rightIdle = IsHubbyIdle(HubbyRightAnimator, "HubbyRight_sleeping");
+
+        if (husband == Husband.Left) return leftIdle;
+        if (husband == Husband.Right) return rightIdle;
+        return leftIdle && rightIdle;
+    }
+
     Husband NextHusband()
     {
         // short delays force the other husband, long delays can bring out both
@@ -181,10 +206,18 @@ public class GameController : MonoBehaviour
     {
         while (true)
         {
+            // gap is measured from when the last husband came out
             hubbyFireDelay = Random.Range(hubbyMinDelay, hubbyMaxDelay);
-            yield return new WaitForSeconds(hubbyFireDelay);
+            yield return new WaitUntil(() => Time.time - lastFireTime >= hubbyFireDelay);
 
+            // only fire husbands who are back to sleeping, otherwise the trigger stays queued
+            // and he walks out again the moment he gets back
             Husband next = NextHusband();
+            while (!CanFire(next))
+            {
+                yield return null;
+            }
+
             if (next == Husband.Left)
             {
                 HubbyLeftFire();
@@ -197,6 +230,7 @@ public class GameController : MonoBehaviour
             {
                 HubbyBothFire();
             }
+            lastFireTime = Time.time;
             //Debug.Log(hubbyFireDelay + " " + lastHusband);
         }
     }

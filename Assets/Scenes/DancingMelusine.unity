@@ -5363,7 +5363,7 @@ MonoBehaviour:
   camPosX: 0
   lerpValue: 0.12
   maxCamPosX: 0
-  maxCamTarget: 1
+  maxCamTarget: 0.5
   Hubby1CanSee: {fileID: 426598066}
   Hubby2CanSee: {fileID: 101551819}
   MelusineVariables: {fileID: 1662586223}
@@ -5372,8 +5372,8 @@ MonoBehaviour:
   Progress: {fileID: 471027222}
   hubbyMinDelay: 1
   hubbyMaxDelay: 3.3
-  hubbyRandomHusbandDelay: 2
-  hubbyBothChance: 0.6
+  hubbyRandomHusbandDelay: 2.5
+  hubbyBothChance: 0.7
   hubbyFireDelay: 1.6
   sdsfx1: {fileID: 992541998}
   sdsfx2: {fileID: 170383654}

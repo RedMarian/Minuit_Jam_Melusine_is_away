@@ -13,7 +13,7 @@ public class MelusionVariables : MonoBehaviour
     public void MelusineIsOnPose(int pose)
     {
         MelusinePosition = pose;
-        // 0 = Hidden, 1 = left, 2 = right
+        // 0 = Hidden, 1 = left, 2 = right, 4 = both can see
     }
     public void PopInWinDo()
     {
