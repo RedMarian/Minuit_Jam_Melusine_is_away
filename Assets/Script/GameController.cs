@@ -45,10 +45,21 @@ public class GameController : MonoBehaviour
     private bool isVictorious = false;
 
     private float t;
+
+    public Sprite leftBtnDown;
+    public Sprite rightBtnDown;
+    public Sprite leftBtnUp;
+    public Sprite rightBtnUp;
+    public Sprite downBtnDown;
+    public Sprite downBtnUp;
+
+    public Image leftTuto;
+    public  Image rightTuto;
+    public Image downTuto;
     // Start is called before the first frame update
     void Start()
     {
-        //StartCoroutine(Dance());
+        StartCoroutine(Dance());
         camPosX = 0f;
     }
 
@@ -109,6 +120,10 @@ public class GameController : MonoBehaviour
         {
             Hide();
         }
+        else if (Input.GetKeyUp(KeyCode.DownArrow))
+        {
+            DownIsUp();
+        }
     }
 
     #region PlayerController
@@ -118,7 +133,9 @@ public class GameController : MonoBehaviour
         MelusineAnimator.SetBool("LeftIsDown", state);
         var target = state ? -maxCamTarget : 0f;
         MaxCamPosXDef(target);
-        //CamLag(-1f, state);
+        var spriteState = state ? leftBtnDown : leftBtnUp;
+        leftTuto.sprite = spriteState;
+        
         //Debug.Log("Melusine turns left"+state);
     }
     public void PressingRight(bool state)
@@ -126,13 +143,21 @@ public class GameController : MonoBehaviour
         MelusineAnimator.SetBool("RightIsDown", state);
         var target = state ? maxCamTarget : 0f;
         MaxCamPosXDef(target);
-        //(1f, state);
+        var spriteState = state ? rightBtnDown : rightBtnUp;
+        rightTuto.sprite = spriteState;
+        
         //Debug.Log("Melusine turns right"+state);
     }
 
     public void Hide()
     {
         MelusineAnimator.SetTrigger("Hide");
+        downTuto.sprite = downBtnDown;
+    }
+
+    public void DownIsUp()
+    {
+        downTuto.sprite = downBtnUp;
     }
     
     private void MaxCamPosXDef(float target)
