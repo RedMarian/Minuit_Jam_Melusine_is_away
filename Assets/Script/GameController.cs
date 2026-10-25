@@ -34,13 +34,14 @@ public class GameController : MonoBehaviour
     public float hubbyRandomHusbandDelay = 2f; // delays below this force the other husband
     public float hubbyBothChance = 0.3f; // chance both come out after a hubbyRandomHusbandDelay
     public float hubbyFireDelay;
-    public Husband lastHusband = Husband.None;
+    private Husband lastHusband = Husband.None;
 
     //public AudioSource sdAmb;
     public AudioSource sdsfx1;
     public AudioSource sdsfx2;
     
     private bool isGameOver = false;
+    private bool isVictorious = false;
     
     // Start is called before the first frame update
     void Start()
@@ -52,7 +53,7 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isGameOver) return;
+        if (isGameOver || isVictorious) return;
         if ((MelusineVariables.MelusinePosition == 1 && Hubby1CanSee.HubbyCanSee) || (MelusineVariables.MelusinePosition ==2 && Hubby2CanSee.HubbyCanSee))
         {
             GameOver();
@@ -217,6 +218,7 @@ public class GameController : MonoBehaviour
     {
         StopAllCoroutines();
         MelusineAnimator.SetTrigger("Victory");
+        isVictorious = true;
         //Debug.Log("Victory");
         // Make PopIn apear
     }
