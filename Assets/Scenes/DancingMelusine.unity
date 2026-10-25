@@ -5361,7 +5361,7 @@ MonoBehaviour:
   HubbyRightAnimator: {fileID: 426598065}
   CameraTransform: {fileID: 155096970}
   camPosX: 0
-  lerpValue: 0.12
+  lerpValue: 0.4
   maxCamPosX: 0
   maxCamTarget: 0.5
   Hubby1CanSee: {fileID: 426598066}
