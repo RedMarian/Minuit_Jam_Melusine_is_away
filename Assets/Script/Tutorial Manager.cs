@@ -14,25 +14,52 @@ public class TutorialManager : MonoBehaviour
     public float lerpValue;
     public float maxCamPosX;
 
-    [Header("Tutorial")]
-    public GameObject leftTapHere;
-    public GameObject rightTapHere;
-    public GameObject hideTapHere;
+    [System.Serializable]
+    public class TutorialHusband
+    {
+        public Animator animator;
+        public string comeTrigger;
+        public string leaveTrigger = "TutorialEnd";
+    }
 
-    public Image leftButtonImage;
-    public Image rightButtonImage;
-    public Image hideButtonImage;
-    public float dimmedAlpha = 0.3f; // alpha of the buttons we are not asking for
-    public float highlightAlpha = 0.7f; 
+    [System.Serializable]
+    public class TutorialEyeline
+    {
+        public Animator animator; // triggers "not_ok" then "ok"
+        public GameObject gameObject;
+    }
+
+    [System.Serializable]
+    public class TutorialStep
+    {
+        public float comeDuration = 1f; // time for the husbands to arrive and stop
+        public GameObject tapHere; // prompt shown while we wait for the press
+        public Image tapHerePanel; // always enabled, only its alpha changes along with the prompt
+    }
+
+    public float tapHerePanelAlpha = 0.5f; // panel alpha while the prompt shows, 0 otherwise
+
+    [Header("Tutorial")]
+    public TutorialHusband rightHusband = new TutorialHusband { comeTrigger = "Hubby1" };
+    public TutorialHusband leftHusband = new TutorialHusband { comeTrigger = "Hubby2" };
+    public TutorialEyeline rightEyeline;
+    public TutorialEyeline leftEyeline;
+
+    public TutorialStep rightStep; // right husband + right eyeline
+    public TutorialStep leftStep; // left husband + left eyeline
+    public TutorialStep hideStep; // both husbands + both eyelines
 
     public float initialDelay = 1f;
     public float delayBetweenSteps = 0.5f;
+    public float leaveDelay = 1f; // time between the "ok" and the husband leaving
     public int nextSceneId = -1; // -1 = next scene in the build settings
 
-    public GameObject readyText;
+    public GameObject eyeSightPanel; // shown before the right / left steps, closed by CloseEyeSightPanel()
+    public GameObject printMelusinePanel; // closed by ClosePrintMelusinePanel()
+    public GameObject readyPanel;
 
     public AudioSource audioSource;
-    public AudioClip[] popSounds; // one of them is played when a Tap Here or the ready text shows up
+    public AudioClip[] popSounds; // one of them is played when a prompt or a panel shows up
 
     public bool isAskingForLeft = false;
     public bool hasPressedLeft = false;
@@ -42,13 +69,21 @@ public class TutorialManager : MonoBehaviour
     public bool hasPressedHide = false;
     public bool tutorialDone = false;
 
+    bool eyeSightPanelClosed = false;
+    bool printPanelClosed = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        leftTapHere.SetActive(false);
-        rightTapHere.SetActive(false);
-        hideTapHere.SetActive(false);
-        readyText.SetActive(false);
+        foreach (TutorialStep step in new[] { rightStep, leftStep, hideStep })
+        {
+            ShowTapHere(step, false);
+        }
+        rightEyeline.gameObject.SetActive(false);
+        leftEyeline.gameObject.SetActive(false);
+        eyeSightPanel.SetActive(false);
+        printMelusinePanel.SetActive(false);
+        readyPanel.SetActive(false);
 
         StartCoroutine(RunTutorial());
         camPosX = 0f;
@@ -132,43 +167,32 @@ public class TutorialManager : MonoBehaviour
     {
         yield return new WaitForSeconds(initialDelay);
 
-        // Right
-        isAskingForRight = true;
-        HighlightButton(rightButtonImage);
-        rightTapHere.SetActive(true);
+        // EyeSight panel
+        eyeSightPanel.SetActive(true);
         PlayPopSound();
-        yield return new WaitUntil(() => hasPressedRight);
-        isAskingForRight = false;
-        rightTapHere.SetActive(false);
+        yield return new WaitUntil(() => eyeSightPanelClosed);
+
+        // Right
+        yield return RunStep(rightStep, new[] { rightHusband }, new[] { rightEyeline }, v => isAskingForRight = v, () => hasPressedRight);
         yield return new WaitForSeconds(delayBetweenSteps);
 
         // Left
-        isAskingForLeft = true;
-        HighlightButton(leftButtonImage);
-        leftTapHere.SetActive(true);
-        PlayPopSound();
-        yield return new WaitUntil(() => hasPressedLeft);
-        isAskingForLeft = false;
-        leftTapHere.SetActive(false);
+        yield return RunStep(leftStep, new[] { leftHusband }, new[] { leftEyeline }, v => isAskingForLeft = v, () => hasPressedLeft);
         yield return new WaitForSeconds(delayBetweenSteps);
 
         // Hide
-        isAskingForHide = true;
-        HighlightButton(hideButtonImage);
-        hideTapHere.SetActive(true);
-        PlayPopSound();
-        yield return new WaitUntil(() => hasPressedHide);
-        isAskingForHide = false;
-        hideTapHere.SetActive(false);
-        yield return new WaitForSeconds(delayBetweenSteps);
+        yield return RunStep(hideStep, new[] { rightHusband, leftHusband }, new[] { rightEyeline, leftEyeline }, v => isAskingForHide = v, () => hasPressedHide);
+        yield return new WaitForSeconds(0.1f);
 
-        // Ready, press anywhere to start the game
-        readyText.SetActive(true);
+        // Print Melusine panel
+        printMelusinePanel.SetActive(true);
         PlayPopSound();
-        SetAlpha(leftButtonImage, dimmedAlpha);
-        SetAlpha(rightButtonImage, dimmedAlpha);
-        SetAlpha(hideButtonImage, dimmedAlpha);
-        yield return new WaitUntil(() => Input.anyKeyDown || Input.touchCount > 0); // anyKeyDown also counts mouse clicks
+        yield return new WaitUntil(() => printPanelClosed);
+
+        // Ready? panel, press anywhere to start the game
+        readyPanel.SetActive(true);
+        PlayPopSound();
+        yield return WaitForAnyPress();
 
         tutorialDone = true;
         Debug.Log("Tutorial done");
@@ -186,24 +210,72 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    // Full color on the button we ask for, dimmed on the others (null = all full color)
-    void HighlightButton(Image active)
+    // Husbands come and stop, eyelines say "not_ok", we wait for the press, eyelines say "ok", husbands leave
+    IEnumerator RunStep(TutorialStep step, TutorialHusband[] husbands, TutorialEyeline[] eyelines, System.Action<bool> setAsking, System.Func<bool> hasPressed)
     {
-        SetAlpha(leftButtonImage, active == null || active == leftButtonImage ? highlightAlpha : dimmedAlpha);
-        SetAlpha(rightButtonImage, active == null || active == rightButtonImage ? highlightAlpha : dimmedAlpha);
-        SetAlpha(hideButtonImage, active == null || active == hideButtonImage ? highlightAlpha : dimmedAlpha);
+        foreach (TutorialHusband husband in husbands)
+            husband.animator.SetTrigger(husband.comeTrigger);
+        yield return new WaitForSeconds(step.comeDuration);
+
+        foreach (TutorialEyeline eyeline in eyelines)
+        {
+            if (eyeline.gameObject != null) eyeline.gameObject.SetActive(true);
+            eyeline.animator.SetTrigger("not_ok");
+        }
+
+        yield return new WaitForSeconds(0.5f); // so the "not_ok" animation is visible for a short time before the prompt shows up
+        ShowTapHere(step, true);
+        PlayPopSound();
+
+        setAsking(true);
+        yield return new WaitUntil(hasPressed);
+        setAsking(false);
+
+        ShowTapHere(step, false);
+        foreach (TutorialEyeline eyeline in eyelines)
+            eyeline.animator.SetTrigger("ok");
+
+        yield return new WaitForSeconds(leaveDelay);
+        foreach (TutorialHusband husband in husbands)
+            husband.animator.SetTrigger(husband.leaveTrigger);
+        foreach (TutorialEyeline eyeline in eyelines)
+            if (eyeline.gameObject != null) eyeline.gameObject.SetActive(false);
+    }
+
+    // Tap here prompt is toggled, its panel image stays enabled and only its alpha changes
+    void ShowTapHere(TutorialStep step, bool show)
+    {
+        if (step.tapHere != null) step.tapHere.SetActive(show);
+        if (step.tapHerePanel != null)
+        {
+            Color color = step.tapHerePanel.color;
+            color.a = show ? tapHerePanelAlpha : 0f;
+            step.tapHerePanel.color = color;
+        }
+    }
+
+    // Buttons: connect them in the Inspector (Button > OnClick)
+    public void CloseEyeSightPanel()
+    {
+        eyeSightPanel.SetActive(false);
+        eyeSightPanelClosed = true;
+    }
+
+    public void ClosePrintMelusinePanel()
+    {
+        printMelusinePanel.SetActive(false);
+        printPanelClosed = true;
+    }
+
+    IEnumerator WaitForAnyPress()
+    {
+        yield return null; // so the press that closed the previous step isn't counted
+        yield return new WaitUntil(() => Input.anyKeyDown || Input.touchCount > 0); // anyKeyDown also counts mouse clicks
     }
 
     void PlayPopSound()
     {
         audioSource.PlayOneShot(popSounds[Random.Range(0, popSounds.Length)]);
-    }
-
-    void SetAlpha(Image image, float alpha)
-    {
-        Color color = image.color;
-        color.a = alpha;
-        image.color = color;
     }
 
     #endregion
