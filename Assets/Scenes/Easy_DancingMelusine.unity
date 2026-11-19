@@ -5170,11 +5170,10 @@ MonoBehaviour:
   Cleanliness: 0
   CleanTime: 20
   Progress: {fileID: 471027222}
-  hubbyMinDelay: 1
-  hubbyMaxDelay: 3.3
-  hubbyRandomHusbandDelay: 2.5
-  hubbyBothChance: 0.4
-  hubbyFireDelay: 1.6
+  hubbyMinDelay: 3
+  hubbyMaxDelay: 5
+  hubbyRandomHusbandDelay: 4
+  hubbyBothChance: 0.1
   sdsfx1: {fileID: 992541998}
   sdsfx2: {fileID: 170383654}
   leftBtnDown: {fileID: 909714823, guid: be9a8ed426cc38f41bcef1c99c442d3f, type: 3}

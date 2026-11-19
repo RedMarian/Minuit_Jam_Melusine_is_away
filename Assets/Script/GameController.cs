@@ -34,7 +34,7 @@ public class GameController : MonoBehaviour
     public float hubbyMaxDelay = 3.3f;
     public float hubbyRandomHusbandDelay = 2f; // delays below this force the other husband
     public float hubbyBothChance = 0.3f; // chance both come out after a hubbyRandomHusbandDelay
-    public float hubbyFireDelay;
+    private float hubbyFireDelay;
     private Husband lastHusband = Husband.None;
     private float lastFireTime;
 
@@ -254,8 +254,19 @@ public class GameController : MonoBehaviour
         {
             return Husband.Both;
         }
+        // long delay: 50% the same husband comes back, 50% the other one
+        if (lastHusband == Husband.Left || lastHusband == Husband.Right)
+        {
+            return Random.value < 0.5f ? lastHusband : OtherHusband(lastHusband);
+        }
+
         // first husband, or after both came out
         return Random.Range(0, 2) == 0 ? Husband.Left : Husband.Right;
+    }
+
+    Husband OtherHusband(Husband husband)
+    {
+        return husband == Husband.Left ? Husband.Right : Husband.Left;
     }
 
     IEnumerator Dance()
