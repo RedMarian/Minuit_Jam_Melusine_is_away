@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using Random = UnityEngine.Random;
 
 public class GameController : MonoBehaviour
@@ -56,16 +57,43 @@ public class GameController : MonoBehaviour
     public Image leftTuto;
     public  Image rightTuto;
     public Image downTuto;
+
+    public GameObject countdownPanel;
+    public TextMeshProUGUI countdownText;
+    public float countdownDuration = 3f;
+    private bool isCountdownOver = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(Dance());
         camPosX = 0f;
+        StartCoroutine(Countdown());
+    }
+
+    IEnumerator Countdown()
+    {
+        if (countdownPanel != null) countdownPanel.SetActive(true);
+
+        float remaining = countdownDuration;
+        while (remaining > 0f)
+        {
+            if (countdownText != null) countdownText.text = Mathf.CeilToInt(remaining).ToString();
+            yield return null;
+            remaining -= Time.deltaTime;
+        }
+
+        if (countdownPanel != null) countdownPanel.SetActive(false);
+        isCountdownOver = true;
+
+        // husbands only start once the countdown is done; first gap counts from now
+        lastFireTime = Time.time;
+        StartCoroutine(Dance());
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!isCountdownOver) return;
         if (isGameOver || isVictorious) return;
         switch (MelusineVariables.MelusinePosition)
         {
